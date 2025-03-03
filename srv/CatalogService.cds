@@ -16,8 +16,11 @@ service CatalogService
             @title : '{i18n>OVERALL_STATUS}';
     }
 
-    entity EmployeeSet as
-        projection on master.employees;
+entity EmployeeSet @(restrict: [ 
+                        { grant: ['READ'], to: 'Viewer', where: 'bankName = $user.BankName' },
+                        { grant: ['WRITE'], to: 'Admin' }
+                        ]) as projection on master.employees;
+
 
     entity BusinessPartnerSet as
         projection on master.businesspartner;
